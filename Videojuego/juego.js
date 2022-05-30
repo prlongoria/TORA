@@ -1,12 +1,12 @@
 
 
-function separateWords (words){
+/*function separateWords (words){
     let word = words.split (' ');
     console.log (word[0]);
     console.log (word[1]);
 }
 separateWords ('catch use');
-separateWords ('go inspect');
+separateWords ('go inspect');*/
 
 let rooms = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]];
 
@@ -28,3 +28,58 @@ rooms [3][2]= "La cocina, sí! Te mueres de sed! Quieres usar el agua? Ahora que
 rooms [0][3]= "Es una estancia enorme, mira qué pinta tienen esos sofás! Lo que darías por echarte una cabezadita! Pero no te distraigas, que es la principal? Qué haces, intentas abrirla o te vas por la puerta de servicio Blanca?";
 rooms [3][3]= "Aire puro!! Mira qué cielo tan estrellado, y qué frío!! Pero qué gusto salir de esas paredes! Mira, un coche!!! Cómo puedes arrancarlo?";
 console.log(rooms);
+
+//Recojo el botón:
+const boton = document.getElementById ("do");
+//Creo un mapa con los verbos:
+const verbs = new Map ();
+verbs.set ("ir", true);
+verbs.set ("coger", true);
+verbs.set ("usar", true);
+verbs.set ("mirar", true);
+verbs.set ("hablar", true);
+
+/*Si quisiera ver lo que pasa al meter uno de estos verbos en consola:
+    console.log (verbs.has ("coger")); 
+    console.log (verbs.has ("marchar"));*/
+
+//Le digo lo que quiero que pase cuando doy clic al botón:
+boton.onclick = function (){
+    //Quiero que coja el valor que mete el usuario en el input commands:
+    let commands =document.getElementById("commands").value;
+    //Quiero que lo convierta todo a minúsculas:
+    commands = commands.toLowerCase();
+    //Para ver en consola qué imprimiría:
+    console.log (commands);
+    //Quiero que separe las strings que mete el usuario en dos strings:
+    let command = commands.split (' ');
+    //Quiero que coja sólo el primer string de las que contiene command:
+    let commandVerb = command [0];
+    //Quiero ver qué pasa en consola, para saber si voy bien encaminada:
+    console.log (commandVerb);
+    //Quiero que si el verbo (primer string de commands) está en mi mapa, salga en el output el mensaje "Buena Elección":
+    if (verbs.has(commandVerb)){    //Si mi mapa contiene el primer string de command, que es el verbo, entonces:
+        //Recoje lo que pone el output description demi html:
+        let description = document.getElementById ("description");
+        //Creo un mensaje que quiero que aparezca si se cumple la condición que puse:
+        let message = "Buena elección!";
+        //Coge lo que pone en description y cámbialo por message:
+        description.innerHTML = message;
+        //Devuélveme en el output lo que pone en message:
+        return message;
+        /* Si quiero que saga un alert y ver qué pasa en consola:
+            alert ("Buena elección!");
+            console.log ("Prueba Superada");*/
+    }else{
+        let description = document.getElementById ("description");
+        let message = "Acción no válida. Prueba con Ir, Coger, Usar, Mirar, Hablar";
+        description.innerHTML = message;
+        return message;
+        /* Si quiero que saga un alert y ver qué pasa en consola:
+            alert ("Acción no válida. Prueba con Ir, Coger, Usar, Mirar, Hablar");
+            console.log("Na nai");*/
+    }
+    
+
+
+}
