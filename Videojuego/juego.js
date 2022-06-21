@@ -10,7 +10,7 @@ let description = document.getElementById ("description");  //Cambio el texto cu
 let message = gameMap [player.position[0]][player.position[1]].description;  //Lo hago dinámico, para que cada vez que meta una posición diferente,cambie la descripción de donde se encuentra el jugador:dentro de gameMap meto los elementos [0] y [1] porque en este caso position es bidimensional, rooms[][]
 
 description.innerHTML = message;                            //Cojo lo que pone el HTML en descripción y lo cambio por el message    
-console.log (message);
+//console.log (message);
 
 function concatenateCommands (command){                     //Creo una función para concatenar los mensajes (que no se borre lo que ya tiene en pantalla el output) cuando mete un comando el player de verbo y palabra aparezca en el output
     description.innerHTML += "<p>" + "> " + command + "</p>";
@@ -55,6 +55,7 @@ function createVerbsMap(){                              //Creo una función para
 }
 
 function movePlayer(direction){                                  //Creo una función para que cuando metar verbs.get(commandVerb).do(commandObject), mueva al jugador por mi mapa de juego y a su vez que cambien las descripciones de la nueva posición en que se encuentra
+   console.log (direction)
     console.log ("Moving Player");                                   //Pruebo en consola que funciona mi función 
     let currentDescription = gameMap [player.position[0]][player.position[1]].description;  //cojo la descripción de la posición en que se vaya encontrando a medida que cambia de posición
     let availableExits = gameMap [player.position[0]][player.position[1]].exits;       //cojo la exit que vaya escogiendo
@@ -67,37 +68,45 @@ function movePlayer(direction){                                  //Creo una func
         concatenateOutputs("No puedes pasar por aquí");
         return;
     }
-   function changePosition (element){
-       if (exits==='n'){
-           player.position [1] += 1;
-           return currentDescription;
-       }
-       if (exits==='s'){
-        player.position [1] -= 1;
-        return currentDescription;
-        }
-    if (exits==='e'){
-        player.position [0]+= 1;
-        return currentDescription;
-        }
-    if (exits==='w'){
-        player.position [0]-= 1;
-        return currentDescription;
-        }
-   }
+  changePosition(direction);
+}
+
+function changePosition (direction){
+    let currentDescription = gameMap [player.position[0]][player.position[1]].description;
+    console.log (direction);
+    if (direction==='n'){
+         player = {position: [3, 1]};                          //Creamos una variable para que el jugador meta su posición y cambie el output a la descripción de donde se encuentra
+
+        //player.position [1] += 1;
+        //console.log (player);
+       // return currentDescription;
+    }
+    if (direction==='s'){
+     player.position [1] -= 1;
+     //return currentDescription;
+     }
+ if (direction==='e'){
+     player.position [0]+= 1;
+    // return currentDescription;
+     }
+ if (direction==='w'){
+     player.position [0]-= 1;
+     //return currentDescription;
+     }
 }
     
 
 function executeCommands(){                                             //Función para que al meter el player un comando (verbo+exits) cambie la descripción del lugar a la del lugar en que se encuentra
+    console.log ("Estoy en la función executeComands");
     let commands =document.getElementById("commands").value;            //Quiero que coja el valor (el input de id commands, lo que es el verbo+exit) que mete el usuario en el input commands
     concatenateCommands(commands);                                      //Para que no lo sustituya, sino que lo añada a la historia que sale en el output
     commands = commands.toLowerCase();                                  //Quiero que lo convierta todo a minúsculas
-    console.log (commands);                                             //Para ver en consola qué imprimiría:
+    //console.log (commands);                                             //Para ver en consola qué imprimiría:
     let command = commands.split (' ');                                 //Quiero que separe las strings que mete el usuario en dos strings
     let commandVerb = command [0];
     let commandObject = command[1];                                      //Quiero que coja sólo el primer string ([0], es decir, el verbo, no el exits)de las que contiene command
-    console.log(commandObject);
-    console.log (commandVerb);                                          //Quiero ver qué pasa en consola, para saber si voy bien encaminada
+    //console.log(commandObject);
+    //console.log (commandVerb);                                          //Quiero ver qué pasa en consola, para saber si voy bien encaminada
                                                                         //Quiero que si el verbo (primer string de commands) está en mi mapa, salga en el output el mensaje "Buena Elección":
     if (verbs.has(commandVerb)){                                        //Si mi mapa contiene el primer string de command, que es el verbo, entonces
         verbs.get(commandVerb).do(commandObject);                       //coge el primer parametro y el segundo de command, es decir, verifica que el verbo es correcto y también que la dirección o el objeto o lo que tenga que poner junto a ese verbo, sea válido para poder continuar con el juego
@@ -111,9 +120,11 @@ function executeCommands(){                                             //Funci�
         let message = "Acción no válida. Prueba con Ir, Coger, Usar, Mirar, Hablar";
         concatenateOutputs(message)                                     //AL TENER QUE CONCATENARLO, LE METO LA FUNCIÓN concatenateOutputs(AQUÍ METO EL message de Buena Elección) QUE ES LA QUE TIENE QUE REALIZAR CUANDO METE UN COMANDO VÁLIDO
         return message;
-    }   
+    }  
 
 }
+
+
 function splitString (sentence){                        //Función para separar los comandos (verbo+exit) que pone en el input el player
     var words = sentence.split(" ");
     console.log(words[0]);
